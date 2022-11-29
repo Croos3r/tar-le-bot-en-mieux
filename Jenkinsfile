@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'node:lts-alpine' } }
+    agent { docker { image 'node:lts-hydrogen' } }
     stages {
         stage('Build') {
             steps {
