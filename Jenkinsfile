@@ -1,6 +1,6 @@
 pipeline {
     agent { docker { image 'node:lts-hydrogen' } }
-    env {
+    environment {
         HOME = '.'
     }
     stages {
