@@ -8,11 +8,11 @@ export class FeurResponder {
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
   private static feurLongResponses = [
-    'Alors je suis pas sur mais je crois que feur',
-    'Dans un premier temps je dirais que je suis d\'accord avec toi mais je pense tout de même que feur',
-    'Oui si on part de ce principe alors je dirais que feur',
-    'Je vois ce que tu veux dire cependant je pense que feur est une réponse assez pertinente.',
-    'La réponse la plus adaptée est sans aucun aucun doute feur',
+    'Alors je suis pas sur mais je crois que feur.',
+    'Dans un premier temps je dirais que je suis d\'accord avec toi mais je pense tout de même que feur.',
+    'Oui si on part de ce principe alors je dirais que feur.',
+    'Je vois ce que tu veux dire et je pense que feur est une réponse assez pertinente.',
+    'La réponse la plus adaptée est sans aucun doute feur.',
   ]
   private static feurLongResponseTimeout = 2
 
