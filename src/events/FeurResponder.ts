@@ -5,6 +5,7 @@ import { Discord, On } from 'discordx'
 export class FeurResponder {
   private static feurAsking = [ 'quoi', 'kwa' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
+  private static feurBannedCharacters = [ '\u200B', '\u200D', '\u200C', '\uFEFF' ]
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
   private static feurLongResponses = [
@@ -18,8 +19,9 @@ export class FeurResponder {
 
   @On({ event: 'messageCreate' })
   async onMessage([ message ]: ArgsOf<'messageCreate'>) {
-    console.log(`Received message: "${message.content}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    if (!FeurResponder.feurAsking.some(asking => message.content.toLowerCase().includes(asking)) || message.author === message.client.user) {
+    const cleanedContent = message.content.toLowerCase().replace(`(${FeurResponder.feurBannedCharacters.join('|')})`, '')
+    console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
+    if (!FeurResponder.feurAsking.some(asking => cleanedContent.includes(asking)) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
       return
     }
@@ -29,7 +31,7 @@ export class FeurResponder {
       return await message.reply(FeurResponder.feurBotResponse).catch(console.error)
     }
 
-    if (message.content.length >= FeurResponder.feurLongResponseLimit) {
+    if (cleanedContent.length >= FeurResponder.feurLongResponseLimit) {
       console.log(`Long message asking for feur, responding with long response in ${FeurResponder.feurLongResponseTimeout} seconds`)
       await message.channel.sendTyping().catch(console.error)
       setTimeout(async () => {
