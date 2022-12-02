@@ -6,7 +6,7 @@ import { Message } from 'discord.js'
 export class FeurResponder {
   private static feurAsking = [ 'quoi', 'kwa' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
-  private static feurBannedCharacters = String.fromCharCode(8203, 8205, 8204, 8206, 65279).split('')
+  private static feurBannedCharactersCode = [ 8203, 8205, 8204, 8206, 65279 ]
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
   private static feurLongResponses = [
@@ -19,7 +19,10 @@ export class FeurResponder {
   private static feurLongResponseTimeout = 2
 
   async takeActionOnMessage(message: Message) {
-    const cleanedContent = message.content.toLowerCase().replace(`(${FeurResponder.feurBannedCharacters.join('|')})`, '')
+    const cleanedContent = String.fromCharCode(
+        ...message.content.toLowerCase().split('').map(c => c.charCodeAt(0))
+                  .filter(c => !FeurResponder.feurBannedCharactersCode.includes(c)),
+    )
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
     if (!FeurResponder.feurAsking.some(asking => cleanedContent.includes(asking)) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
