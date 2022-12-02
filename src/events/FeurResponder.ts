@@ -5,6 +5,7 @@ import { Message } from 'discord.js'
 @Discord()
 export class FeurResponder {
   private static feurAsking = [ 'quoi', 'kwa' ]
+  private static feurAskingTerminator = [ '?', '!', ' ', ':', '.', ',', ';', ')', '\'', '"', '/' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
   private static feurBannedCharactersCode = [ 8203, 8205, 8204, 8206, 65279 ]
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
@@ -17,6 +18,7 @@ export class FeurResponder {
     'La réponse la plus adaptée est sans aucun doute feur.',
   ]
   private static feurLongResponseTimeout = 2
+  private feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
 
   async takeActionOnMessage(message: Message) {
     const cleanedContent = String.fromCharCode(
@@ -24,7 +26,7 @@ export class FeurResponder {
                   .filter(c => !FeurResponder.feurBannedCharactersCode.includes(c)),
     )
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    if (!FeurResponder.feurAsking.some(asking => cleanedContent.includes(asking)) || message.author === message.client.user) {
+    if (!cleanedContent.match(this.feurAskingRegex) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
       return
     }
