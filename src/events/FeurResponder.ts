@@ -1,5 +1,6 @@
 import type { ArgsOf } from 'discordx'
 import { Discord, On } from 'discordx'
+import { Message } from 'discord.js'
 
 @Discord()
 export class FeurResponder {
@@ -17,8 +18,7 @@ export class FeurResponder {
   ]
   private static feurLongResponseTimeout = 2
 
-  @On({ event: 'messageCreate' })
-  async onMessage([ message ]: ArgsOf<'messageCreate'>) {
+  async takeActionOnMessage(message: Message) {
     const cleanedContent = message.content.toLowerCase().replace(`(${FeurResponder.feurBannedCharacters.join('|')})`, '')
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
     if (!FeurResponder.feurAsking.some(asking => cleanedContent.includes(asking)) || message.author === message.client.user) {
@@ -43,5 +43,17 @@ export class FeurResponder {
 
     console.log('Short message asking for feur, responding with reactions')
     await Promise.all(FeurResponder.feurReactionResponse.map(async char => await message.react(char))).catch(console.error)
+  }
+
+  @On({ event: 'messageCreate' })
+  async onMessage([ message ]: ArgsOf<'messageCreate'>) {
+    console.log('Received message creation')
+    await this.takeActionOnMessage(message)
+  }
+
+  @On({ event: 'messageUpdate' })
+  async onMessageUpdate([ _, newMessage ]: ArgsOf<'messageUpdate'>) {
+    console.log('Received message update')
+    await this.takeActionOnMessage(newMessage as Message)
   }
 }
