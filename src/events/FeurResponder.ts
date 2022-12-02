@@ -6,7 +6,7 @@ import { Message } from 'discord.js'
 export class FeurResponder {
   private static feurAsking = [ 'quoi', 'kwa' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
-  private static feurBannedCharacters = String.fromCharCode(8203, 8205, 8204, 65279).split('')
+  private static feurBannedCharacters = String.fromCharCode(8203, 8205, 8204, 8206, 65279).split('')
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
   private static feurLongResponses = [
