@@ -7,7 +7,7 @@ export class FeurResponder {
   private static feurAsking = [ 'quoi', 'kwa' ]
   private static feurAskingTerminator = [ '?', '!', ' ', ':', '.', ',', ';', ')', '\'', '"', '/' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
-  private static feurBannedCharactersCode = [ 8203, 8205, 8204, 8206, 65279 ]
+  private static feurBannedCharactersCode = [ 8203, 8205, 8204, 8206, 65039, 65279 ]
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
   private static feurLongResponses = [
