@@ -30,6 +30,7 @@ export class FeurResponder {
         // Filters out all non latin-1 characters and zero-width characters
         .filter(c => {
           const code = c.charCodeAt(0)
+          console.log(`Character ${c} (d:${code}, h:${code.toString(16)})`)
           return code <= 255 && (code <= 126 || code >= 160) && ![ 0, 7, 14, 15 ].includes(code)
         })
         .join('')
