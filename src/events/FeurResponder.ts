@@ -21,7 +21,7 @@ export class FeurResponder {
 
   logUnicode(message: Message) {
     console.log(`Unicodes for message "${message.content}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    console.log(message.content.split('').map(c => [ c, c.charCodeAt(0).toString(16) ]).map(([ c, h ]) => `${c} (${h})`).join(' '))
+    console.log(message.content.split('').map(c => [ c, c.charCodeAt(0).toString(16), c.charCodeAt(0).toString() ]).map(([ c, h, d ]) => `'${c}'(${h}/${d})`).join(' '))
   }
 
   async takeActionOnMessage(message: Message) {
