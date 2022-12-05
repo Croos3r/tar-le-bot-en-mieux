@@ -21,21 +21,20 @@ export class FeurResponder {
 
   logUnicode(message: Message) {
     console.log(`Unicodes for message "${message.content}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    console.log(message.content.toLowerCase().split('').map(c => [ c, c.charCodeAt(0).toString(16), c.charCodeAt(0).toString() ]).map(([ c, h, d ]) => `'${c}'(${h}/${d})`).join(' '))
+    console.log(message.content.split('').map(c => [ c, c.charCodeAt(0).toString(16), c.charCodeAt(0).toString() ]).map(([ c, h, d ]) => `'${c}'(${h}/${d})`).join(' '))
   }
 
   async takeActionOnMessage(message: Message) {
     const feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
-    const cleanedContent = String.fromCharCode(
-        ...message.content.toLowerCase().split('')
-            .map(c => c.charCodeAt(0))
-            // Filters out all non latin-1 characters and zero-width characters
-            .filter(c => c <= 255 && (c <= 126 || c >= 160) && ![ 0, 7, 14, 15 ].includes(c)),
-    )
-    console.log(`Cleaned message content unicodes:`)
-    console.log(cleanedContent.split('').map(c => [ c, c.charCodeAt(0).toString(16), c.charCodeAt(0).toString() ]).map(([ c, h, d ]) => `'${c}'(${h}/${d})`).join(' '))
+    const cleanedContent = message.content.split('')
+        // Filters out all non latin-1 characters and zero-width characters
+        .filter(c => {
+          const code = c.charCodeAt(0)
+          return code <= 255 && (code <= 126 || code >= 160) && ![ 0, 7, 14, 15 ].includes(code)
+        })
+        .join('')
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    if (!cleanedContent.match(feurAskingRegex) || message.author === message.client.user) {
+    if (!cleanedContent.toLowerCase().match(feurAskingRegex) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
       return
     }
