@@ -4,10 +4,10 @@ import { Message } from 'discord.js'
 
 @Discord()
 export class FeurResponder {
+  //
   private static feurAsking = [ 'quoi', 'kwa' ]
   private static feurAskingTerminator = [ '?', '!', ' ', ':', '.', ',', ';', ')', '\'', '"', '/' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
-  private static feurBannedCharactersCode = [ 8203, 8205, 8204, 8206, 65039, 65279 ]
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
   private static feurLongResponses = [
@@ -18,15 +18,17 @@ export class FeurResponder {
     'La réponse la plus adaptée est sans aucun doute feur.',
   ]
   private static feurLongResponseTimeout = 2
-  private feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
 
   async takeActionOnMessage(message: Message) {
+    const feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
     const cleanedContent = String.fromCharCode(
-        ...message.content.toLowerCase().split('').map(c => c.charCodeAt(0))
-                  .filter(c => !FeurResponder.feurBannedCharactersCode.includes(c)),
+        ...message.content.toLowerCase().split('')
+            .map(c => c.charCodeAt(0))
+            // Filters out all non latin-1 characters and zero-width characters
+            .filter(c => c <= 255 && (c <= 126 || c >= 160) && ![ 0, 7, 14, 15 ].includes(c)),
     )
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    if (!cleanedContent.match(this.feurAskingRegex) || message.author === message.client.user) {
+    if (!cleanedContent.match(feurAskingRegex) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
       return
     }
