@@ -32,6 +32,8 @@ export class FeurResponder {
             // Filters out all non latin-1 characters and zero-width characters
             .filter(c => c <= 255 && (c <= 126 || c >= 160) && ![ 0, 7, 14, 15 ].includes(c)),
     )
+    console.log(`Cleaned message content unicodes:`)
+    console.log(cleanedContent.split('').map(c => [ c, c.charCodeAt(0).toString(16), c.charCodeAt(0).toString() ]).map(([ c, h, d ]) => `'${c}'(${h}/${d})`).join(' '))
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
     if (!cleanedContent.match(feurAskingRegex) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
