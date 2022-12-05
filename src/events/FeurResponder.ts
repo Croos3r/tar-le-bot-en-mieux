@@ -19,11 +19,6 @@ export class FeurResponder {
   ]
   private static feurLongResponseTimeout = 2
 
-  logUnicode(message: Message) {
-    console.log(`Unicodes for message "${message.content}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    console.log(message.content.split('').map(c => [ c, c.charCodeAt(0).toString(16), c.charCodeAt(0).toString() ]).map(([ c, h, d ]) => `'${c}'(${h}/${d})`).join(' '))
-  }
-
   async takeActionOnMessage(message: Message) {
     const feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
     const cleanedContent = message.content.split('')
@@ -63,13 +58,11 @@ export class FeurResponder {
   async onMessage([ message ]: ArgsOf<'messageCreate'>) {
     console.log('Received message creation')
     await this.takeActionOnMessage(message)
-    this.logUnicode(message)
   }
 
   @On({ event: 'messageUpdate' })
   async onMessageUpdate([ _, newMessage ]: ArgsOf<'messageUpdate'>) {
     console.log('Received message update')
     await this.takeActionOnMessage(newMessage as Message)
-    this.logUnicode(newMessage as Message)
   }
 }
