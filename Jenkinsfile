@@ -18,8 +18,8 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'tlb-path', variable: 'TLB_PATH'), string(credentialsId: 'tlb-ssh', variable: 'TLB_SSH')]) {
                     sh 'npm run deploy'
-                    sshagent([TLB_SSH]) {
-                        sh "cd ${TLB_PATH} && git pull && docker compose down && docker compose up -d --build"
+                    sshagent(credentialsId: [TLB_SSH]) {
+                        sh "cd $TLB_PATH && git pull && docker compose down && docker compose up -d --build"
                     }
                 }
             }
