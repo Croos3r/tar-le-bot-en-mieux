@@ -13,13 +13,12 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch main
+                branch 'main'
             }
             steps {
-                withCredentials([string(credentialsId: 'tlb-ssh', variable: 'TLB_SSH')]) {
-                    sh 'npm run deploy'
+                withCredentials([string(credentialsId: 'tlb-ssh', variable: 'TLB_SSH'), string(credentialsId: 'tlb-path', variable: 'TLB_PATH')]) {
                     sshagent(credentials: [TLB_SSH]) {
-                        sh "cd /home/crooser/tar-le-bot-en-mieux/ && git pull && docker compose down && docker compose up -d --build"
+                        sh "cd $TLB_PATH && git pull && docker compose down && docker compose up -d --build"
                     }
                 }
             }
