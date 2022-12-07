@@ -59,6 +59,10 @@ async function run() {
     throw Error('Could not find BOT_TOKEN in your environment')
   }
 
+  if (!process.env.DATABASE_FILE) {
+    throw Error('Could not find DATABASE_FILE in your environment')
+  }
+
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN)
 }
