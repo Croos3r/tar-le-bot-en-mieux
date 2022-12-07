@@ -17,10 +17,23 @@ export class FeurResponder {
     'La réponse la plus adaptée est sans aucun doute feur.',
   ]
   private static feurLongResponseTimeout = 2
+  private static feurLetterMapping: { [letter: string]: string[] } = {
+    'o': [ 'о', 'ο' ],
+    'q': [],
+    'u': [ 'υ' ],
+    'i': [ 'і', 'Ꭵ' ],
+  }
+
+  private static getLetterMapping(letter: string) {
+    return Object.keys(FeurResponder.feurLetterMapping)
+        .find(mapped => FeurResponder.feurLetterMapping[mapped].includes(letter)) || letter
+  }
 
   async takeActionOnMessage(message: Message) {
     const feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
     const cleanedContent = message.content.split('')
+        // Replace all similar letters with their mapping
+        .map(FeurResponder.getLetterMapping)
         // Filters out all non latin-1 characters and zero-width characters
         .filter(c => {
           const code = c.charCodeAt(0)
