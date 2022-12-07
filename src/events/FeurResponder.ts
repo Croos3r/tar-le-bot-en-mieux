@@ -5,7 +5,7 @@ import { Message } from 'discord.js'
 @Discord()
 export class FeurResponder {
   private static feurAsking = [ 'quoi', 'kwa' ]
-  private static feurAskingTerminator = [ '?', '!', ' ', ':', '.', ',', ';', ')', '\'', '"', '/', '\n', '_', '*', '~' ]
+  private static feurAskingTerminator = [ '?', '!', ' ', ':', '.', ',', ';', ')', '\'', '"', '/', '\n', '_', '*', '~', '\\', '\\' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
