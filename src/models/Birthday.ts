@@ -21,7 +21,7 @@ export function getRepository() {
 }
 
 export async function getBirthdayForUser(userId: string) {
-  return await getRepository().find({ where: { userId } })
+  return await getRepository().findOneBy({ userId })
 }
 
 export async function addBirthdayForUser(userId: string, date: Date) {
