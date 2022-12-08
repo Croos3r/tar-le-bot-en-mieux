@@ -64,6 +64,10 @@ async function run() {
     throw Error('Could not find DATABASE_FILE in your environment')
   }
 
+  if (!process.env.BIRTHDAY_CHANNEL_ID) {
+    throw Error('Could not find BIRTHDAY_CHANNEL_ID in your environment')
+  }
+
   await database.initialize()
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN)
