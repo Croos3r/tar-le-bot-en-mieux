@@ -13,9 +13,6 @@ export default class Birthday {
 
   @Column({ type: 'date' })
   date!: Date
-
-  @Column({ nullable: true, type: 'date', default: null })
-  lastNotified!: Date | null
 }
 
 export function getRepository() {
@@ -43,10 +40,6 @@ export async function addBirthdayForUser(userId: string, date: Date) {
 
 export async function removeBirthdayForUser(userId: string) {
   return (await getRepository().delete({ userId }))?.affected === 1
-}
-
-export async function setBirthdayLastNotifiedTodayForUser(userId: string) {
-  return (await getRepository().update({ userId }, { userId, lastNotified: new Date() }))?.affected === 1
 }
 
 export async function notifyBirthdays(channel: TextChannel, ...birthdays: Birthday[]) {
