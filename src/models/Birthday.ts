@@ -16,21 +16,23 @@ export default class Birthday {
   lastNotified!: Date | null
 }
 
-export const birthdayRepository = database.getRepository(Birthday)
+export function getRepository() {
+  return database.getRepository(Birthday)
+}
 
 export async function getBirthdayForUser(userId: string) {
-  return await birthdayRepository.find({ where: { userId } })
+  return await getRepository().find({ where: { userId } })
 }
 
 export async function addBirthdayForUser(userId: string, date: Date) {
-  const birthday = birthdayRepository.create({ userId, date })
-  await birthdayRepository.save(birthday)
+  const birthday = getRepository().create({ userId, date })
+  await getRepository().save(birthday)
 }
 
 export async function removeBirthdayForUser(userId: string) {
-  await birthdayRepository.delete({ userId })
+  await getRepository().delete({ userId })
 }
 
 export async function setBirthdayLastNotifiedTodayForUser(userId: string) {
-  await birthdayRepository.update({ userId }, { userId, lastNotified: new Date() })
+  await getRepository().update({ userId }, { userId, lastNotified: new Date() })
 }
