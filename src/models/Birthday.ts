@@ -24,6 +24,17 @@ export async function getBirthdayForUser(userId: string) {
   return await getRepository().findOneBy({ userId })
 }
 
+export async function getAll(limit?: number, page?: number) {
+  if (limit && page) {
+    return await getRepository().find({
+      take: limit,
+      skip: limit * page,
+    })
+  } else {
+    return await getRepository().find()
+  }
+}
+
 export async function addBirthdayForUser(userId: string, date: Date) {
   const birthday = getRepository().create({ userId, date })
   await getRepository().save(birthday)
