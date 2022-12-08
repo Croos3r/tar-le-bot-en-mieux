@@ -36,8 +36,8 @@ export async function getAll(limit?: number, page?: number) {
   }
 }
 
-export async function addBirthdayForUser(userId: string, date: Date) {
-  return (await getRepository().insert({ userId, date }))?.identifiers.length === 1
+export async function setBirthdayForUser(userId: string, date: Date) {
+  await getRepository().save({ userId, date })
 }
 
 export async function removeBirthdayForUser(userId: string) {

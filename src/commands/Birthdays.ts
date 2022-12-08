@@ -1,6 +1,6 @@
 import { Discord, Slash, SlashGroup, SlashOption } from 'discordx'
 import { ApplicationCommandOptionType, CommandInteraction, User } from 'discord.js'
-import { addBirthdayForUser, getBirthdayForUser } from '../entities/Birthday.js'
+import { getBirthdayForUser, setBirthdayForUser } from '../entities/Birthday.js'
 import dayjs from 'dayjs'
 
 @Discord()
@@ -78,10 +78,7 @@ export default class Birthdays {
       return await interaction.reply(`The date ${date} is not valid`)
     }
 
-    if (!await addBirthdayForUser(interaction.user.id, dateParsed.toDate())) {
-      return await interaction.reply(`An error occurred while setting your birthday`)
-    }
-
+    await setBirthdayForUser(interaction.user.id, dateParsed.toDate())
     await interaction.reply(`Your birthday has been set to ${date}`)
   }
 }
