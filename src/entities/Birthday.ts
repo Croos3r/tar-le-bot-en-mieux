@@ -2,6 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import database from '../utils/database.js'
 import dayjs from 'dayjs'
 import { TextChannel } from 'discord.js'
+import { CronJob } from 'cron'
+import { Client } from 'discordx'
 
 @Entity()
 export default class Birthday {
@@ -58,4 +60,18 @@ export async function notifyBirthdays(channel: TextChannel, ...birthdays: Birthd
   let usersAgesString = usersAges.map(([ userId, age ]) => `<@${userId}> (${age})`).join(', ')
   usersAgesString = usersAgesString.replace(/, ([^,]*)$/, ' and $1')
   return await channel.send(`Today is ${usersAgesString} birthdays!`)
+}
+
+export function startNotifierJob(bot: Client) {
+  let job = new CronJob('0 0 12 * * *', async () => {
+    let today = dayjs()
+    let birthdays = (await getAll())
+        .filter(birthday => dayjs(birthday.date).month() === today.month() && dayjs(birthday.date).date() === today.date())
+
+    if (birthdays.length > 0) {
+      await notifyBirthdays(await bot.channels.fetch('BIRTHDAY_CHANNEL_ID') as TextChannel, ...birthdays)
+    }
+  })
+  job.start()
+  return job
 }
