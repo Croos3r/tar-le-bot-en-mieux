@@ -3,6 +3,7 @@ import type { Interaction } from 'discord.js'
 import { IntentsBitField } from 'discord.js'
 import { Client } from 'discordx'
 import database from './utils/database.js'
+import { startNotifierJob as startBirthdayNotifierJob } from './entities/Birthday.js'
 
 export const bot = new Client(
     {
@@ -40,6 +41,7 @@ bot.once('ready', async () => {
   //    ...bot.guilds.cache.map((g) => g.id)
   //  );
 
+  startBirthdayNotifierJob(bot)
   console.log('Bot started')
 })
 
