@@ -71,7 +71,7 @@ export default class Birthdays {
     let birthday = await getBirthdayForUser(interaction.user.id)
 
     if (birthday) {
-      return await interaction.reply(`You already have a birthday set to ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
+      return await interaction.reply(`You already have your birthday set to ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
     let dateParsed = dayjs(date, Birthdays.FORMAT, 'fr', true)
