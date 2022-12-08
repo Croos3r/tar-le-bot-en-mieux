@@ -20,6 +20,8 @@ import dayjs from 'dayjs'
 })
 @SlashGroup('birthday')
 export default class Birthdays {
+  private static FORMAT = 'DD/MM/YYYY'
+
   @Slash({
     name: 'get',
     description: 'Get the birthday of a user or your own',
@@ -69,10 +71,10 @@ export default class Birthdays {
     let birthday = await getBirthdayForUser(interaction.user.id)
 
     if (birthday) {
-      return await interaction.reply(`You already have a birthday set to ${birthday.date}`)
+      return await interaction.reply(`You already have a birthday set to ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
-    let dateParsed = dayjs(date, 'DD/MM/YYYY', 'fr', true)
+    let dateParsed = dayjs(date, Birthdays.FORMAT, 'fr', true)
 
     if (!dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
       return await interaction.reply(`The date ${date} is not valid`)
