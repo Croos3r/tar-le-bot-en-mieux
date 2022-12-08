@@ -2,6 +2,7 @@ import { dirname, importx } from '@discordx/importer'
 import type { Interaction } from 'discord.js'
 import { IntentsBitField } from 'discord.js'
 import { Client } from 'discordx'
+import database from './utils/database.js'
 
 export const bot = new Client(
     {
@@ -63,6 +64,7 @@ async function run() {
     throw Error('Could not find DATABASE_FILE in your environment')
   }
 
+  await database.initialize()
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN)
 }
