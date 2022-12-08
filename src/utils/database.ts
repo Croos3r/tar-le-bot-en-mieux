@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm'
-import { Birthday } from '../models/Birthday.js'
+import Birthday from '../models/Birthday.js'
 
 export default new DataSource({
   type: 'sqlite',
