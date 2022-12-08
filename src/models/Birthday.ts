@@ -36,14 +36,13 @@ export async function getAll(limit?: number, page?: number) {
 }
 
 export async function addBirthdayForUser(userId: string, date: Date) {
-  const birthday = getRepository().create({ userId, date })
-  await getRepository().save(birthday)
+  return (await getRepository().insert({ userId, date }))?.identifiers.length === 1
 }
 
 export async function removeBirthdayForUser(userId: string) {
-  await getRepository().delete({ userId })
+  return (await getRepository().delete({ userId }))?.affected === 1
 }
 
 export async function setBirthdayLastNotifiedTodayForUser(userId: string) {
-  await getRepository().update({ userId }, { userId, lastNotified: new Date() })
+  return (await getRepository().update({ userId }, { userId, lastNotified: new Date() }))?.affected === 1
 }
