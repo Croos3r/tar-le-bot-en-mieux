@@ -1,6 +1,6 @@
 import { Discord, Slash, SlashGroup, SlashOption } from 'discordx'
 import { ApplicationCommandOptionType, CommandInteraction, User } from 'discord.js'
-import { addBirthdayForUser, getBirthdayForUser } from '../models/Birthday.js'
+import { addBirthdayForUser, getBirthdayForUser } from '../entities/Birthday.js'
 import dayjs from 'dayjs'
 
 @Discord()

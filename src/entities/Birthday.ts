@@ -1,5 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import database from '../utils/database.js'
+import dayjs from 'dayjs'
+import { TextChannel } from 'discord.js'
 
 @Entity()
 export default class Birthday {
@@ -45,4 +47,22 @@ export async function removeBirthdayForUser(userId: string) {
 
 export async function setBirthdayLastNotifiedTodayForUser(userId: string) {
   return (await getRepository().update({ userId }, { userId, lastNotified: new Date() }))?.affected === 1
+}
+
+export async function notifyBirthdays(channel: TextChannel, ...birthdays: Birthday[]) {
+  let thisYear = dayjs().year()
+  let usersAges = birthdays.map(birthday => [ birthday.userId, thisYear - dayjs(birthday.date).year() ])
+
+  if (usersAges.length === 0) {
+    return
+  }
+
+  if (usersAges.length === 1) {
+    let [ userId, age ] = usersAges[0]
+    return await channel.send(`Today is <@${userId}>'s birthday! They are ${age} years old!`)
+  }
+
+  let usersAgesString = usersAges.map(([ userId, age ]) => `<@${userId}> (${age})`).join(', ')
+  usersAgesString = usersAgesString.replace(/, ([^,]*)$/, ' and $1')
+  return await channel.send(`Today is ${usersAgesString} birthdays!`)
 }
