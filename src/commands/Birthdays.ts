@@ -54,7 +54,7 @@ export default class Birthdays {
     let birthday = await getBirthdayForUser(user.id)
 
     if (birthday) {
-      return await interaction.reply(`The birthday of ${user} is ${birthday.date}`)
+      return await interaction.reply(`The birthday of ${user} is ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
     await interaction.reply(`No birthday found for ${user.username}`)
