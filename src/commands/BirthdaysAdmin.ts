@@ -18,6 +18,7 @@ import Birthdays from './Birthdays.js'
     'en-GB': 'Manage birthdays of users',
     'en-US': 'Manage birthdays of users',
   },
+  defaultMemberPermissions: [ 'Administrator' ],
 })
 @SlashGroup('birthday-admin')
 export default class BirthdaysAdmin {
