@@ -160,13 +160,13 @@ export default class BirthdaysAdmin {
       }) date: string,
       interaction: CommandInteraction,
   ) {
-    let dateParsed = dayjs(date, Birthdays.FORMAT, 'fr', true)
+    let dateParsed = dayjs(date, Birthdays.FORMAT, true)
 
-    if (!dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
-      return await interaction.reply(`The date ${date} is not valid`)
+    if (!date.match(Birthdays.DATE_MATCHER) || !dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
+      return await interaction.reply(`The date ${date} is not valid. Format: ${Birthdays.FORMAT}`)
     }
 
     await setBirthdayForUser(interaction.user.id, dateParsed.toDate())
-    await interaction.reply(`The birthday of <@${user.id}> has been set to ${date}`)
+    await interaction.reply(`The birthday of <@${user.id}> has been set to ${dateParsed.format(Birthdays.FORMAT)}`)
   }
 }
