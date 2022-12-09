@@ -2,6 +2,8 @@ import { dirname, importx } from '@discordx/importer'
 import type { Interaction } from 'discord.js'
 import { IntentsBitField } from 'discord.js'
 import { Client } from 'discordx'
+import database from './utils/database.js'
+import { startNotifierJob as startBirthdayNotifierJob } from './entities/Birthday.js'
 
 export const bot = new Client(
     {
@@ -39,6 +41,7 @@ bot.once('ready', async () => {
   //    ...bot.guilds.cache.map((g) => g.id)
   //  );
 
+  startBirthdayNotifierJob(bot)
   console.log('Bot started')
 })
 
@@ -59,6 +62,15 @@ async function run() {
     throw Error('Could not find BOT_TOKEN in your environment')
   }
 
+  if (!process.env.DATABASE_FILE) {
+    throw Error('Could not find DATABASE_FILE in your environment')
+  }
+
+  if (!process.env.BIRTHDAY_CHANNEL_ID) {
+    throw Error('Could not find BIRTHDAY_CHANNEL_ID in your environment')
+  }
+
+  await database.initialize()
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN)
 }

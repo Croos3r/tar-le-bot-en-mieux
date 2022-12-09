@@ -15,10 +15,16 @@
   "dependencies": {
     "@discordx/importer": "^1.1.10",
     "@discordx/pagination": "^3.3.1",
+    "cron": "^2.1.0",
+    "dayjs": "^1.11.7",
     "discord.js": "^14.6.0",
-    "discordx": "^11.4.0"
+    "discordx": "^11.4.0",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.1.2",
+    "typeorm": "^0.3.11"
   },
   "devDependencies": {
+    "@types/cron": "^2.0.0",
     "@types/node": "^18.11.7",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
