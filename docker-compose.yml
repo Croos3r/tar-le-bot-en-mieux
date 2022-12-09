@@ -8,5 +8,5 @@ services:
       - DATABASE_FILE=${DATABASE_FILE}
       - BIRTHDAY_CHANNEL_ID=${BIRTHDAY_CHANNEL_ID}
     volumes:
-      - ${DATABASE_FILE}:/app/${DATABASE_FILE}
+      - ./data:/app/data/
     env_file: ./.env

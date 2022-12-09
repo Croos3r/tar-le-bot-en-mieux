@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy') {
             environment {
-                DATABASE_FILE = './database.sqlite3'
+                DATABASE_FILE = './data/database.sqlite3'
                 BIRTHDAY_CHANNEL_ID = '902949941989752892'
                 BOT_TOKEN = credentials('tlb-token')
             }
