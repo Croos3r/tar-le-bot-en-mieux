@@ -4,6 +4,9 @@ import { IntentsBitField } from 'discord.js'
 import { Client } from 'discordx'
 import database from './utils/database.js'
 import { startNotifierJob as startBirthdayNotifierJob } from './entities/Birthday.js'
+import { configure as configureDayJS } from './utils/dayjs.js'
+
+configureDayJS()
 
 export const bot = new Client(
     {
