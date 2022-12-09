@@ -37,7 +37,12 @@ export async function getAll(limit?: number, page?: number) {
 }
 
 export async function setBirthdayForUser(userId: string, date: Date) {
-  await getRepository().save({ userId, date })
+  if (!await getRepository().exist({ where: { userId } })) {
+    await getRepository().save({ userId, date })
+    return true
+  } else {
+    return (await getRepository().update({ userId }, { date }))?.affected === 1
+  }
 }
 
 export async function removeBirthdayForUser(userId: string) {
