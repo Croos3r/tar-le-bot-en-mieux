@@ -8,4 +8,4 @@ services:
       - DATABASE_FILE=${DATABASE_FILE}
       - BIRTHDAY_CHANNEL_ID=${BIRTHDAY_CHANNEL_ID}
     volumes:
-      - ${DATABASE_FILE}:${DATABASE_FILE}
+      - ${DATABASE_FILE}:/app/${DATABASE_FILE}
