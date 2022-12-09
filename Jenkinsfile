@@ -1,10 +1,10 @@
 pipeline {
     agent any
-    environment {
-        HOME = '.'
-    }
     stages {
         stage('Build') {
+            environment {
+                HOME = '.'
+            }
             agent { docker { image 'node:lts-hydrogen' } }
             steps {
                 sh 'npm install'
@@ -12,6 +12,11 @@ pipeline {
             }
         }
         stage('Deploy') {
+            environment {
+                DATABASE_FILE = './database.sqlite3'
+                BIRTHDAY_CHANNEL_ID = '902949941989752892'
+                BOT_TOKEN = credentials('tlb-token')
+            }
             when {
                 branch 'main'
             }
