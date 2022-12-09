@@ -21,7 +21,6 @@ import dayjs from 'dayjs'
 @SlashGroup('birthday')
 export default class Birthdays {
   public static FORMAT = 'DD/MM/YYYY'
-  public static DATE_MATCHER = /^\d{1,2}\/\d{1,2}\/(\d{1,2}|\d{4})$/
 
   @Slash({
     name: 'get',
@@ -95,9 +94,9 @@ export default class Birthdays {
       return await interaction.reply(`You already have your birthday set to ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
-    let dateParsed = dayjs(date, Birthdays.FORMAT, true)
+    let dateParsed = dayjs(date, Birthdays.FORMAT)
 
-    if (!date.match(Birthdays.DATE_MATCHER) || !dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
+    if (!dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
       return await interaction.reply(`The date ${date} is not valid. Format: ${Birthdays.FORMAT}`)
     }
 
