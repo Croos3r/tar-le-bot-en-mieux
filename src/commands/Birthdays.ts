@@ -40,6 +40,11 @@ export default class Birthdays {
       @SlashOption({
         name: 'user',
         description: 'The user to get the birthday of',
+        nameLocalizations: {
+          fr: 'utilisateur',
+          'en-GB': 'user',
+          'en-US': 'user',
+        },
         required: false,
         type: ApplicationCommandOptionType.User,
       }) user: User | undefined,
@@ -58,11 +63,26 @@ export default class Birthdays {
   @Slash({
     name: 'set',
     description: 'Set your birthday',
+    nameLocalizations: {
+      fr: 'ajouter',
+      'en-GB': 'set',
+      'en-US': 'set',
+    },
+    descriptionLocalizations: {
+      fr: 'Définissez votre anniversaire',
+      'en-GB': 'Set your birthday',
+      'en-US': 'Set your birthday',
+    },
   })
   async set(
       @SlashOption({
         name: 'date',
         description: 'Your birthday',
+        descriptionLocalizations: {
+          fr: 'Votre anniversaire',
+          'en-GB': 'Your birthday',
+          'en-US': 'Your birthday',
+        },
         required: true,
         type: ApplicationCommandOptionType.String,
       }) date: string,
