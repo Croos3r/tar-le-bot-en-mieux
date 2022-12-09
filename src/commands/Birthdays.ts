@@ -20,7 +20,7 @@ import dayjs from 'dayjs'
 })
 @SlashGroup('birthday')
 export default class Birthdays {
-  private static FORMAT = 'DD/MM/YYYY'
+  public static FORMAT = 'DD/MM/YYYY'
 
   @Slash({
     name: 'get',
