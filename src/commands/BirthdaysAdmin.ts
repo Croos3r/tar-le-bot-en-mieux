@@ -160,9 +160,9 @@ export default class BirthdaysAdmin {
       }) date: string,
       interaction: CommandInteraction,
   ) {
-    let dateParsed = dayjs(date, Birthdays.FORMAT, true)
+    let dateParsed = dayjs(date, Birthdays.FORMAT)
 
-    if (!date.match(Birthdays.DATE_MATCHER) || !dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
+    if (!dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
       return await interaction.reply(`The date ${date} is not valid. Format: ${Birthdays.FORMAT}`)
     }
 
