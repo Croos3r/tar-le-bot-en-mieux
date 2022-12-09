@@ -23,8 +23,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'tlb-ssh', variable: 'TLB_SSH'), string(credentialsId: 'tlb-path', variable: 'TLB_PATH')]) {
                     sshagent(credentials: [TLB_SSH]) {
-                        sh 'printenv > .env'
-                        sh 'cd $TLB_PATH && git pull && docker compose down && docker compose up -d --build'
+                        sh 'cd $TLB_PATH && printenv > .env && git pull && docker compose down && docker compose up -d --build'
                     }
                 }
             }
