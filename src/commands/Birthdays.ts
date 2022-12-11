@@ -2,6 +2,7 @@ import { Discord, Slash, SlashGroup, SlashOption } from 'discordx'
 import { ApplicationCommandOptionType, CommandInteraction, User } from 'discord.js'
 import { getBirthdayForUser, setBirthdayForUser } from '../entities/Birthday.js'
 import dayjs from 'dayjs'
+import { InteractionReplier } from '../utils/discordjs.js'
 
 @Discord()
 @SlashGroup({
@@ -50,14 +51,15 @@ export default class Birthdays {
       }) user: User | undefined,
       interaction: CommandInteraction,
   ) {
+    const replier = new InteractionReplier(interaction, true)
     user = user ?? interaction.user
     let birthday = await getBirthdayForUser(user.id)
 
     if (birthday) {
-      return await interaction.reply(`The birthday of ${user} is ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
+      return await replier.replyMessage(`The birthday of ${user} is ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
-    await interaction.reply(`No birthday found for ${user.username}`)
+    await replier.replyMessage(`No birthday found for ${user.username}`)
   }
 
   @Slash({
@@ -88,19 +90,20 @@ export default class Birthdays {
       }) date: string,
       interaction: CommandInteraction,
   ) {
+    const replier = new InteractionReplier(interaction, true)
     let birthday = await getBirthdayForUser(interaction.user.id)
 
     if (birthday) {
-      return await interaction.reply(`You already have your birthday set to ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
+      return await replier.replyMessage(`You already have your birthday set to ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
     let dateParsed = dayjs(date, Birthdays.FORMAT)
 
     if (!dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
-      return await interaction.reply(`The date ${date} is not valid. Format: ${Birthdays.FORMAT}`)
+      return await replier.replyMessage(`The date ${date} is not valid. Format: ${Birthdays.FORMAT}`)
     }
 
     await setBirthdayForUser(interaction.user.id, dateParsed.toDate())
-    await interaction.reply(`Your birthday has been set to ${dateParsed.format(Birthdays.FORMAT)}`)
+    await replier.replyMessage(`Your birthday has been set to ${dateParsed.format(Birthdays.FORMAT)}`)
   }
 }

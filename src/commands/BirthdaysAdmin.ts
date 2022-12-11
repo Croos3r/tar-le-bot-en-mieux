@@ -1,8 +1,14 @@
 import { Discord, Slash, SlashGroup, SlashOption } from 'discordx'
 import { ApplicationCommandOptionType, CommandInteraction, User } from 'discord.js'
-import { getAll, getRepository as getBirthdayRepository, removeBirthdayForUser, setBirthdayForUser } from '../entities/Birthday.js'
+import {
+  getAll,
+  getRepository as getBirthdayRepository,
+  removeBirthdayForUser,
+  setBirthdayForUser,
+} from '../entities/Birthday.js'
 import dayjs from 'dayjs'
 import Birthdays from './Birthdays.js'
+import { InteractionReplier } from '../utils/discordjs.js'
 
 @Discord()
 @SlashGroup({
@@ -52,6 +58,7 @@ export default class BirthdaysAdmin {
       }) page: number | undefined,
       interaction: CommandInteraction,
   ) {
+    const replier = new InteractionReplier(interaction, true)
     page = (page ?? 1) - 1
     let birthdaysCount = await getBirthdayRepository().count()
 
@@ -62,17 +69,15 @@ export default class BirthdaysAdmin {
     let birthdays = await getAll(BirthdaysAdmin.BIRTHDAYS_PER_PAGE, page)
 
     if (birthdays.length === 0) {
-      return await interaction.reply('No birthdays found')
+      return await replier.replyMessage('No birthdays found')
     }
 
-    await interaction.reply({
-      embeds: [ {
-        title: 'Birthdays',
-        description: birthdays.map(birthday => `<@${birthday.userId}> - ${dayjs(birthday.date).format(Birthdays.FORMAT)}`).join('\n'),
-        footer: {
-          text: `Page ${page + 1}`,
-        },
-      } ],
+    await replier.replyEmbed({
+      title: 'Birthdays',
+      description: birthdays.map(birthday => `<@${birthday.userId}> - ${dayjs(birthday.date).format(Birthdays.FORMAT)}`).join('\n'),
+      footer: {
+        text: `Page ${page + 1}`,
+      },
     })
   }
 
@@ -109,10 +114,11 @@ export default class BirthdaysAdmin {
       }) user: User,
       interaction: CommandInteraction,
   ) {
+    const replier = new InteractionReplier(interaction, true)
     if (await removeBirthdayForUser(user.id)) {
-      return await interaction.reply(`Deleted birthday for <@${user.id}>`)
+      return await replier.replyMessage(`Deleted birthday for <@${user.id}>`)
     } else {
-      return await interaction.reply(`No birthday found for <@${user.id}>`)
+      return await replier.replyMessage(`No birthday found for <@${user.id}>`)
     }
   }
 
@@ -160,13 +166,14 @@ export default class BirthdaysAdmin {
       }) date: string,
       interaction: CommandInteraction,
   ) {
+    const replier = new InteractionReplier(interaction, true)
     let dateParsed = dayjs(date, Birthdays.FORMAT)
 
     if (!dateParsed.isValid() || dateParsed.isAfter(dayjs())) {
-      return await interaction.reply(`The date ${date} is not valid. Format: ${Birthdays.FORMAT}`)
+      return await replier.replyMessage(`The date ${date} is not valid. Format: ${Birthdays.FORMAT}`)
     }
 
     await setBirthdayForUser(interaction.user.id, dateParsed.toDate())
-    await interaction.reply(`The birthday of <@${user.id}> has been set to ${dateParsed.format(Birthdays.FORMAT)}`)
+    await replier.replyMessage(`The birthday of <@${user.id}> has been set to ${dateParsed.format(Birthdays.FORMAT)}`)
   }
 }
