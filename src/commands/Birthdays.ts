@@ -37,18 +37,18 @@ export default class Birthdays {
     },
   })
   async get(
-      @SlashOption({
-        name: 'user',
-        description: 'The user to get the birthday of',
-        nameLocalizations: {
-          fr: 'utilisateur',
-          'en-GB': 'user',
-          'en-US': 'user',
-        },
-        required: false,
-        type: ApplicationCommandOptionType.User,
-      }) user: User | undefined,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'user',
+      description: 'The user to get the birthday of',
+      nameLocalizations: {
+        fr: 'utilisateur',
+        'en-GB': 'user',
+        'en-US': 'user',
+      },
+      required: false,
+      type: ApplicationCommandOptionType.User,
+    }) user: User | undefined,
+    interaction: CommandInteraction,
   ) {
     user = user ?? interaction.user
     let birthday = await getBirthdayForUser(user.id)
@@ -57,7 +57,7 @@ export default class Birthdays {
       return await interaction.reply(`The birthday of ${user} is ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
-    await interaction.reply(`No birthday found for <@${user.id}>`)
+    await interaction.reply(`No birthday found for ${user}`)
   }
 
   @Slash({
@@ -75,18 +75,18 @@ export default class Birthdays {
     },
   })
   async set(
-      @SlashOption({
-        name: 'date',
-        description: 'Your birthday',
-        descriptionLocalizations: {
-          fr: 'Votre anniversaire',
-          'en-GB': 'Your birthday',
-          'en-US': 'Your birthday',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.String,
-      }) date: string,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'date',
+      description: 'Your birthday',
+      descriptionLocalizations: {
+        fr: 'Votre anniversaire',
+        'en-GB': 'Your birthday',
+        'en-US': 'Your birthday',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    }) date: string,
+    interaction: CommandInteraction,
   ) {
     let birthday = await getBirthdayForUser(interaction.user.id)
 

@@ -1,6 +1,11 @@
 import { Discord, Slash, SlashGroup, SlashOption } from 'discordx'
 import { ApplicationCommandOptionType, CommandInteraction, User } from 'discord.js'
-import { getAll, getRepository as getBirthdayRepository, removeBirthdayForUser, setBirthdayForUser } from '../entities/Birthday.js'
+import {
+  getAll,
+  getRepository as getBirthdayRepository,
+  removeBirthdayForUser,
+  setBirthdayForUser
+} from '../entities/Birthday.js'
 import dayjs from 'dayjs'
 import Birthdays from './Birthdays.js'
 
@@ -39,18 +44,18 @@ export default class BirthdaysAdmin {
     },
   })
   async list(
-      @SlashOption({
-        name: 'page',
-        description: 'The page to list',
-        descriptionLocalizations: {
-          fr: 'La page à lister',
-          'en-GB': 'The page to list',
-          'en-US': 'The page to list',
-        },
-        required: false,
-        type: ApplicationCommandOptionType.Integer,
-      }) page: number | undefined,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'page',
+      description: 'The page to list',
+      descriptionLocalizations: {
+        fr: 'La page à lister',
+        'en-GB': 'The page to list',
+        'en-US': 'The page to list',
+      },
+      required: false,
+      type: ApplicationCommandOptionType.Integer,
+    }) page: number | undefined,
+    interaction: CommandInteraction,
   ) {
     page = (page ?? 1) - 1
     let birthdaysCount = await getBirthdayRepository().count()
@@ -91,28 +96,28 @@ export default class BirthdaysAdmin {
     },
   })
   async delete(
-      @SlashOption({
-        name: 'user',
-        description: 'The user to delete the birthday of',
-        nameLocalizations: {
-          fr: 'utilisateur',
-          'en-GB': 'user',
-          'en-US': 'user',
-        },
-        descriptionLocalizations: {
-          fr: 'L\'utilisateur dont vous souhaitez supprimer l\'anniversaire',
-          'en-GB': 'The user to delete the birthday of',
-          'en-US': 'The user to delete the birthday of',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.User,
-      }) user: User,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'user',
+      description: 'The user to delete the birthday of',
+      nameLocalizations: {
+        fr: 'utilisateur',
+        'en-GB': 'user',
+        'en-US': 'user',
+      },
+      descriptionLocalizations: {
+        fr: 'L\'utilisateur dont vous souhaitez supprimer l\'anniversaire',
+        'en-GB': 'The user to delete the birthday of',
+        'en-US': 'The user to delete the birthday of',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.User,
+    }) user: User,
+    interaction: CommandInteraction,
   ) {
     if (await removeBirthdayForUser(user.id)) {
-      return await interaction.reply(`Deleted birthday for <@${user.id}>`)
+      return await interaction.reply(`Deleted birthday for ${user}`)
     } else {
-      return await interaction.reply(`No birthday found for <@${user.id}>`)
+      return await interaction.reply(`No birthday found for ${user}`)
     }
   }
 
@@ -131,34 +136,34 @@ export default class BirthdaysAdmin {
     },
   })
   async set(
-      @SlashOption({
-        name: 'user',
-        description: 'The user to set the birthday of',
-        nameLocalizations: {
-          fr: 'utilisateur',
-          'en-GB': 'user',
-          'en-US': 'user',
-        },
-        descriptionLocalizations: {
-          fr: 'L\'utilisateur dont vous souhaitez définir l\'anniversaire',
-          'en-GB': 'The user to set the birthday of',
-          'en-US': 'The user to the birthday of',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.User,
-      }) user: User,
-      @SlashOption({
-        name: 'date',
-        description: 'The date of the user\'s birthday',
-        descriptionLocalizations: {
-          fr: 'La date de l\'anniversaire de l\'utilisateur',
-          'en-GB': 'The date of the user\'s birthday',
-          'en-US': 'The date of the user\'s birthday',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.String,
-      }) date: string,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'user',
+      description: 'The user to set the birthday of',
+      nameLocalizations: {
+        fr: 'utilisateur',
+        'en-GB': 'user',
+        'en-US': 'user',
+      },
+      descriptionLocalizations: {
+        fr: 'L\'utilisateur dont vous souhaitez définir l\'anniversaire',
+        'en-GB': 'The user to set the birthday of',
+        'en-US': 'The user to the birthday of',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.User,
+    }) user: User,
+    @SlashOption({
+      name: 'date',
+      description: 'The date of the user\'s birthday',
+      descriptionLocalizations: {
+        fr: 'La date de l\'anniversaire de l\'utilisateur',
+        'en-GB': 'The date of the user\'s birthday',
+        'en-US': 'The date of the user\'s birthday',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    }) date: string,
+    interaction: CommandInteraction,
   ) {
     let dateParsed = dayjs(date, Birthdays.FORMAT)
 
@@ -167,6 +172,6 @@ export default class BirthdaysAdmin {
     }
 
     await setBirthdayForUser(interaction.user.id, dateParsed.toDate())
-    await interaction.reply(`The birthday of <@${user.id}> has been set to ${dateParsed.format(Birthdays.FORMAT)}`)
+    await interaction.reply(`The birthday of ${user} has been set to ${dateParsed.format(Birthdays.FORMAT)}`)
   }
 }
