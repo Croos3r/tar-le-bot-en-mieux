@@ -57,7 +57,7 @@ export default class Birthdays {
       return await interaction.reply(`The birthday of ${user} is ${dayjs(birthday.date).format(Birthdays.FORMAT)}`)
     }
 
-    await interaction.reply(`No birthday found for ${user.username}`)
+    await interaction.reply(`No birthday found for <@${user.id}>`)
   }
 
   @Slash({
