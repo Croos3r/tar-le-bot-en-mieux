@@ -74,7 +74,7 @@ export function startNotifierJob(bot: Client) {
         .filter(birthday => dayjs(birthday.date).month() === today.month() && dayjs(birthday.date).date() === today.date())
 
     if (birthdays.length > 0) {
-      await notifyBirthdays(await bot.channels.fetch('BIRTHDAY_CHANNEL_ID') as TextChannel, ...birthdays)
+      await notifyBirthdays(await bot.channels.fetch(process.env.BIRTHDAY_CHANNEL_ID as string) as TextChannel, ...birthdays)
     }
   })
   job.start()
