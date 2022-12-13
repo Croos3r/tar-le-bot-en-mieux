@@ -26,20 +26,20 @@ export class FeurResponder {
 
   private static getLetterMapping(letter: string) {
     return Object.keys(FeurResponder.feurLetterMapping)
-        .find(mapped => FeurResponder.feurLetterMapping[mapped].includes(letter)) || letter
+      .find(mapped => FeurResponder.feurLetterMapping[mapped].includes(letter)) || letter
   }
 
   async takeActionOnMessage(message: Message) {
     const feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
     const cleanedContent = message.content.split('')
-        // Replace all similar letters with their mapping
-        .map(FeurResponder.getLetterMapping)
-        // Filters out all non latin-1 characters and zero-width characters
-        .filter(c => {
-          const code = c.charCodeAt(0)
-          return code <= 255 && (code <= 126 || code >= 160) && ![ 0, 7, 14, 15 ].includes(code)
-        })
-        .join('')
+      // Replace all similar letters with their mapping
+      .map(FeurResponder.getLetterMapping)
+      // Filters out all non latin-1 characters and zero-width characters
+      .filter(c => {
+        const code = c.charCodeAt(0)
+        return code <= 255 && (code <= 126 || code >= 160) && ![ 0, 7, 14, 15 ].includes(code)
+      })
+      .join('')
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
     if (!cleanedContent.toLowerCase().match(feurAskingRegex) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
