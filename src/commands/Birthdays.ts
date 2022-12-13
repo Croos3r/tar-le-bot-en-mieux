@@ -38,18 +38,18 @@ export default class Birthdays {
     },
   })
   async get(
-      @SlashOption({
-        name: 'user',
-        description: 'The user to get the birthday of',
-        nameLocalizations: {
-          fr: 'utilisateur',
-          'en-GB': 'user',
-          'en-US': 'user',
-        },
-        required: false,
-        type: ApplicationCommandOptionType.User,
-      }) user: User | undefined,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'user',
+      description: 'The user to get the birthday of',
+      nameLocalizations: {
+        fr: 'utilisateur',
+        'en-GB': 'user',
+        'en-US': 'user',
+      },
+      required: false,
+      type: ApplicationCommandOptionType.User,
+    }) user: User | undefined,
+    interaction: CommandInteraction,
   ) {
     const replier = new InteractionReplier(interaction, true)
     user = user ?? interaction.user
@@ -77,18 +77,18 @@ export default class Birthdays {
     },
   })
   async set(
-      @SlashOption({
-        name: 'date',
-        description: 'Your birthday',
-        descriptionLocalizations: {
-          fr: 'Votre anniversaire',
-          'en-GB': 'Your birthday',
-          'en-US': 'Your birthday',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.String,
-      }) date: string,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'date',
+      description: 'Your birthday',
+      descriptionLocalizations: {
+        fr: 'Votre anniversaire',
+        'en-GB': 'Your birthday',
+        'en-US': 'Your birthday',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    }) date: string,
+    interaction: CommandInteraction,
   ) {
     const replier = new InteractionReplier(interaction, true)
     let birthday = await getBirthdayForUser(interaction.user.id)

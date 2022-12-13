@@ -45,18 +45,18 @@ export default class BirthdaysAdmin {
     },
   })
   async list(
-      @SlashOption({
-        name: 'page',
-        description: 'The page to list',
-        descriptionLocalizations: {
-          fr: 'La page à lister',
-          'en-GB': 'The page to list',
-          'en-US': 'The page to list',
-        },
-        required: false,
-        type: ApplicationCommandOptionType.Integer,
-      }) page: number | undefined,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'page',
+      description: 'The page to list',
+      descriptionLocalizations: {
+        fr: 'La page à lister',
+        'en-GB': 'The page to list',
+        'en-US': 'The page to list',
+      },
+      required: false,
+      type: ApplicationCommandOptionType.Integer,
+    }) page: number | undefined,
+    interaction: CommandInteraction,
   ) {
     const replier = new InteractionReplier(interaction, true)
     page = (page ?? 1) - 1
@@ -96,23 +96,23 @@ export default class BirthdaysAdmin {
     },
   })
   async delete(
-      @SlashOption({
-        name: 'user',
-        description: 'The user to delete the birthday of',
-        nameLocalizations: {
-          fr: 'utilisateur',
-          'en-GB': 'user',
-          'en-US': 'user',
-        },
-        descriptionLocalizations: {
-          fr: 'L\'utilisateur dont vous souhaitez supprimer l\'anniversaire',
-          'en-GB': 'The user to delete the birthday of',
-          'en-US': 'The user to delete the birthday of',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.User,
-      }) user: User,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'user',
+      description: 'The user to delete the birthday of',
+      nameLocalizations: {
+        fr: 'utilisateur',
+        'en-GB': 'user',
+        'en-US': 'user',
+      },
+      descriptionLocalizations: {
+        fr: 'L\'utilisateur dont vous souhaitez supprimer l\'anniversaire',
+        'en-GB': 'The user to delete the birthday of',
+        'en-US': 'The user to delete the birthday of',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.User,
+    }) user: User,
+    interaction: CommandInteraction,
   ) {
     const replier = new InteractionReplier(interaction, true)
     if (await removeBirthdayForUser(user.id)) {
@@ -137,34 +137,34 @@ export default class BirthdaysAdmin {
     },
   })
   async set(
-      @SlashOption({
-        name: 'user',
-        description: 'The user to set the birthday of',
-        nameLocalizations: {
-          fr: 'utilisateur',
-          'en-GB': 'user',
-          'en-US': 'user',
-        },
-        descriptionLocalizations: {
-          fr: 'L\'utilisateur dont vous souhaitez définir l\'anniversaire',
-          'en-GB': 'The user to set the birthday of',
-          'en-US': 'The user to the birthday of',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.User,
-      }) user: User,
-      @SlashOption({
-        name: 'date',
-        description: 'The date of the user\'s birthday',
-        descriptionLocalizations: {
-          fr: 'La date de l\'anniversaire de l\'utilisateur',
-          'en-GB': 'The date of the user\'s birthday',
-          'en-US': 'The date of the user\'s birthday',
-        },
-        required: true,
-        type: ApplicationCommandOptionType.String,
-      }) date: string,
-      interaction: CommandInteraction,
+    @SlashOption({
+      name: 'user',
+      description: 'The user to set the birthday of',
+      nameLocalizations: {
+        fr: 'utilisateur',
+        'en-GB': 'user',
+        'en-US': 'user',
+      },
+      descriptionLocalizations: {
+        fr: 'L\'utilisateur dont vous souhaitez définir l\'anniversaire',
+        'en-GB': 'The user to set the birthday of',
+        'en-US': 'The user to the birthday of',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.User,
+    }) user: User,
+    @SlashOption({
+      name: 'date',
+      description: 'The date of the user\'s birthday',
+      descriptionLocalizations: {
+        fr: 'La date de l\'anniversaire de l\'utilisateur',
+        'en-GB': 'The date of the user\'s birthday',
+        'en-US': 'The date of the user\'s birthday',
+      },
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    }) date: string,
+    interaction: CommandInteraction,
   ) {
     const replier = new InteractionReplier(interaction, true)
     let dateParsed = dayjs(date, Birthdays.FORMAT)

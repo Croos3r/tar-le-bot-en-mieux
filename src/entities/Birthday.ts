@@ -71,7 +71,7 @@ export function startNotifierJob(bot: Client) {
   let job = new CronJob('0 0 12 * * *', async () => {
     let today = dayjs()
     let birthdays = (await getAll())
-        .filter(birthday => dayjs(birthday.date).month() === today.month() && dayjs(birthday.date).date() === today.date())
+      .filter(birthday => dayjs(birthday.date).month() === today.month() && dayjs(birthday.date).date() === today.date())
 
     if (birthdays.length > 0) {
       await notifyBirthdays(await bot.channels.fetch(process.env.BIRTHDAY_CHANNEL_ID as string) as TextChannel, ...birthdays)
