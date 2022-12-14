@@ -5,28 +5,29 @@ import { Client } from 'discordx'
 import database from './utils/database.js'
 import { startNotifierJob as startBirthdayNotifierJob } from './entities/Birthday.js'
 import { configure as configureDayJS } from './utils/dayjs.js'
+import { rotateActivities } from "./utils/activity.js";
 
 configureDayJS()
 
 export const bot = new Client(
-    {
-      // To use only guild command
-      // botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
+  {
+    // To use only guild command
+    // botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
 
-      // Discord intents
-      intents: [
-        IntentsBitField.Flags.Guilds,
-        IntentsBitField.Flags.GuildMessages,
-        IntentsBitField.Flags.GuildMembers,
-        IntentsBitField.Flags.GuildMessageReactions,
-        IntentsBitField.Flags.DirectMessages,
-        IntentsBitField.Flags.DirectMessageReactions,
-        IntentsBitField.Flags.MessageContent,
-      ],
+    // Discord intents
+    intents: [
+      IntentsBitField.Flags.Guilds,
+      IntentsBitField.Flags.GuildMessages,
+      IntentsBitField.Flags.GuildMembers,
+      IntentsBitField.Flags.GuildMessageReactions,
+      IntentsBitField.Flags.DirectMessages,
+      IntentsBitField.Flags.DirectMessageReactions,
+      IntentsBitField.Flags.MessageContent,
+    ],
 
-      // Debug logs are disabled in silent mode
-      silent: false,
-    },
+    // Debug logs are disabled in silent mode
+    silent: false,
+  },
 )
 
 bot.once('ready', async () => {
@@ -45,6 +46,7 @@ bot.once('ready', async () => {
   //  );
 
   startBirthdayNotifierJob(bot)
+  rotateActivities(bot, 10)
   console.log('Bot started')
 })
 
