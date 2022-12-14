@@ -11,14 +11,10 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true
+    "esModuleInterop": true
   },
   "exclude": [
     "build",
     "node_modules"
-  ],
-  "include": [
-    "package.json",
   ]
 }
