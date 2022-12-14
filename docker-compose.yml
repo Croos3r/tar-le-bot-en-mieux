@@ -2,7 +2,7 @@ version: "3"
 services:
   app:
     build: .
-    command: node build/main.js
+    command: node build/src/main.js
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
       - DATABASE_FILE=${DATABASE_FILE}
