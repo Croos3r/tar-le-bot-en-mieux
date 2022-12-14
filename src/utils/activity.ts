@@ -21,7 +21,6 @@ const ACTIVITIES: ActivitiesOptions[] = [
 export function rotateActivities(bot: Client, delay = 5, activities: ActivitiesOptions[] = ACTIVITIES): void {
   let i = 0;
   setInterval(() => {
-    console.log('Rotating activity to', activities[i].name);
     bot.user?.setActivity(activities[i++ % activities.length]);
   }, delay * 1000);
 }
