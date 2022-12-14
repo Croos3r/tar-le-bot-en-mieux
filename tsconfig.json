@@ -4,6 +4,7 @@
     "module": "ESNext",
     "outDir": "build",
     "rootDir": "src",
+    "baseUrl": ".",
     "strict": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
@@ -11,8 +12,12 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
+  "include": [
+    "package.json"
+  ],
   "exclude": [
     "build",
     "node_modules"

@@ -1,7 +1,6 @@
+import { author, version } from '../../package.json' assert { type: 'json' };
 import { ActivitiesOptions, ActivityType } from "discord.js";
 import { Client } from 'discordx';
-
-const { version, author } = require('../../package.json');
 
 export const VERSION_ACTIVITY: ActivitiesOptions = {
   name: `v${version} | by ${author.name}`,
@@ -10,7 +9,7 @@ export const VERSION_ACTIVITY: ActivitiesOptions = {
 }
 
 export const CONTRIBUTE_ACTIVITY: ActivitiesOptions = {
-  name: `Contribute on GitHub -> ${author.url}`,
+  name: `Contribute on GitHub -> ${packageJson.author.url}`,
   type: ActivityType.Watching,
 };
 
