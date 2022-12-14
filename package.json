@@ -5,6 +5,10 @@
   "license": "MIT",
   "type": "module",
   "main": "build/main.js",
+  "author": {
+    "name": "Croos3r",
+    "url": "https://github.com/Croos3r/tar-le-bot-en-mieux"
+  },
   "scripts": {
     "build": "tsc",
     "build:changelog": "npx @discordx/changelog --src=./src",
