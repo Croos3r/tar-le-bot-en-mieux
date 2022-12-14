@@ -1,6 +1,6 @@
-import { author, version } from '#package' assert { type: 'json' };
 import { ActivitiesOptions, ActivityType } from "discord.js";
 import { Client } from 'discordx';
+import { author, version } from '../../package.json';
 
 export const VERSION_ACTIVITY: ActivitiesOptions = {
   name: `v${version} | by ${author.name}`,
