@@ -4,7 +4,6 @@
     "module": "ESNext",
     "outDir": "build",
     "rootDir": "src",
-    "baseUrl": ".",
     "strict": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
@@ -15,9 +14,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "package.json"
-  ],
   "exclude": [
     "build",
     "node_modules"

@@ -1,4 +1,4 @@
-import { author, version } from '../../package.json' assert { type: 'json' };
+import { author, version } from '#package' assert { type: 'json' };
 import { ActivitiesOptions, ActivityType } from "discord.js";
 import { Client } from 'discordx';
 
@@ -9,7 +9,7 @@ export const VERSION_ACTIVITY: ActivitiesOptions = {
 }
 
 export const CONTRIBUTE_ACTIVITY: ActivitiesOptions = {
-  name: `Contribute on GitHub -> ${packageJson.author.url}`,
+  name: `Contribute on GitHub -> ${author.url}`,
   type: ActivityType.Watching,
 };
 
