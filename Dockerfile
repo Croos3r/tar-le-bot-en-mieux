@@ -32,7 +32,5 @@ RUN npm install --omit=dev
 # Move build files
 COPY --from=build-runner /tmp/app/build /app/build
 
-RUN ls -alR
-
 # Start bot
 CMD [ "npm", "run", "start" ]
