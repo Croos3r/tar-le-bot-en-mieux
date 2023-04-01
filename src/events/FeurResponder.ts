@@ -51,18 +51,23 @@ export class FeurResponder {
       return await message.reply(FeurResponder.feurBotResponse).catch(console.error)
     }
 
-    if (cleanedContent.length >= FeurResponder.feurLongResponseLimit) {
+    if (cleanedContent.length < FeurResponder.feurLongResponseLimit) {
+      try {
+        console.log('Short message asking for feur, responding with reactions')
+        await Promise.all(FeurResponder.feurReactionResponse.map(async char => await message.react(char))).catch(console.error)
+        return
+      } catch (_) {
+        console.error('Failed to react to message, responding with long response')
+      }
+    } else {
       console.log(`Long message asking for feur, responding with long response in ${FeurResponder.feurLongResponseTimeout} seconds`)
-      await message.channel.sendTyping().catch(console.error)
-      setTimeout(async () => {
-        console.log('Sending long response')
-        await message.reply(FeurResponder.feurLongResponses[Math.floor(Math.random() * FeurResponder.feurLongResponses.length)]).catch(console.error)
-      }, FeurResponder.feurLongResponseTimeout * 1000)
-      return
     }
-
-    console.log('Short message asking for feur, responding with reactions')
-    await Promise.all(FeurResponder.feurReactionResponse.map(async char => await message.react(char))).catch(console.error)
+    await message.channel.sendTyping().catch(console.error)
+    setTimeout(async () => {
+      console.log('Sending long response')
+      await message.reply(FeurResponder.feurLongResponses[Math.floor(Math.random() * FeurResponder.feurLongResponses.length)]).catch(console.error)
+    }, FeurResponder.feurLongResponseTimeout * 1000)
+    return
   }
 
   @On({ event: 'messageCreate' })
