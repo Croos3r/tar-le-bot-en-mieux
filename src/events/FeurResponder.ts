@@ -4,8 +4,8 @@ import { Message } from 'discord.js'
 
 @Discord()
 export class FeurResponder {
-  // private static feurAsking = [ 'quoi', 'kwa' ]
-  // private static feurAskingTerminator = [ '?', '!', ' ', ':', '.', ',', ';', ')', '\'', '"', '/', '\n', '_', '*', '~', '\\' ]
+  private static feurAsking = [ 'quoi', 'kwa' ]
+  private static feurAskingTerminator = [ '?', '!', ' ', ':', '.', ',', ';', ')', '\'', '"', '/', '\n', '_', '*', '~', '\\' ]
   private static feurReactionResponse = [ '🇫', '🇪', '🇺', '🇷' ]
   private static feurBotResponse = '01100110 01100101 01110101 01110010 00100000 01100110 01100100 01110000'
   private static feurLongResponseLimit = 40
@@ -30,7 +30,7 @@ export class FeurResponder {
   }
 
   async takeActionOnMessage(message: Message) {
-    // const feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
+    const feurAskingRegex = `(${FeurResponder.feurAsking.join('|')})(${FeurResponder.feurAskingTerminator.map(s => '\\' + s).join('|')}|$)`
     const cleanedContent = message.content.split('')
         // Replace all similar letters with their mapping
         .map(FeurResponder.getLetterMapping)
@@ -41,7 +41,7 @@ export class FeurResponder {
         })
         .join('')
     console.log(`Received message: "${cleanedContent}" (${message.id}) from ${message.author.username}#${message.author.discriminator} (${message.author.id}) in ${message.guild?.name}`)
-    if (/*!cleanedContent.toLowerCase().match(feurAskingRegex) || */message.author === message.client.user) {
+    if (!cleanedContent.toLowerCase().match(feurAskingRegex) || message.author === message.client.user) {
       console.log('Message does not contain feur asking or is from this bot')
       return
     }
