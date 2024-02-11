@@ -24,7 +24,7 @@
     "discord.js": "^14.6.0",
     "discordx": "^11.4.0",
     "reflect-metadata": "^0.1.13",
-    "sqlite3": "^5.1.2",
+    "sqlite3": "^5.1.7",
     "typeorm": "^0.3.11"
   },
   "devDependencies": {
